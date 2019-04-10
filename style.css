@@ -1,4 +1,4 @@
-<style>
+html {
       box-sizing: border-box;
       background: #ffc600;
       font-family: 'helvetica neue';
@@ -28,16 +28,19 @@
       align-items: center;
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
-      transition:
-        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+      transition: font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
         flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
         background 0.2s;
       font-size: 20px;
       background-size: cover;
       background-position: center;
-      flex: 1;  /*This tells it that each may grow to one*/
+      flex: 1;  /*This tells it that each may grow to one makes them evenly distribute the extra space.*/
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      display: flex;
     }
+
 
     .panel1 { background-image:url(https://source.unsplash.com/E7p54JSQXY0/1500x1500); }
     .panel2 { background-image:url(https://source.unsplash.com/fgOQssxolWY/1500x1500); }
@@ -45,14 +48,21 @@
     .panel4 { background-image:url(https://source.unsplash.com/9ZCUAcYSVyI/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/ZmspklIgq6A/1500x1500); }
 
-    /* Flex items */
-    .panel > * {
+/*     Flex items*/
+    .panel > * {     /*All that are immediate children and overiding universal selector*/
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
-      border: 1px solid red;
       flex: 1 0 auto; /*This tells how much each item should flex*/
+      display: flex; /*brings text to the left*/
+      justify-content: center;
+      align-items: center;
     }
+    /*selector is used to select the specified selector, only if it is the first child of its parent.*/
+    .panel > *:first-child { transform: translateY(-100%); }
+    .panel.open-active > *:first-child { transform: translateY(0); } /*When you the open-active class it will now animate itself*/
+    .panel > *:last-child { transform: translateY(100%); } /*this translate Y animates itself.  It will take it in and out*/
+    .panel.open-active > *:last-child { transform: translateY(0); }
 
     .panel p {
       text-transform: uppercase;
@@ -65,6 +75,8 @@
       font-size: 4em;
     }
 
+
     .panel.open {
       font-size: 40px;
+      flex: 5; /* It already has a flex: 1; when you put a flex: 5; it will grow. I will then go to the html and apply the open class to a panel*/
     }
